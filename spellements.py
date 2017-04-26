@@ -121,19 +121,35 @@ elements = {
 
 def main():
     """
-    Entry point for spellements.py.
+    Entry point for spellements.py. Accepts a word input and loops through
+    all of the elements above to spell the word provided.
     """
-    word = input("What word would you like to spell? ").lower()
-    used_elements = ""
-    changed_indices = []
+    word = input("What word would you like to spell? (Enter -1 to exit): ").lower()
 
-    for element in elements:
-        if element[1].lower() in word:
-            word = word.replace(element[1].lower(), element[1])
-            used_elements += element[0] + ", "
+    if word != "-1":
+        used_elements = ""
+        changed_indices = []
 
-    used_elements = "(" + used_elements[:-2] + ")"
-    print(word + used_elements)
+        for element in elements:
+            if len(element[1]) == 1:
+                continue
+
+            if element[1].lower() in word:
+                index = word.index(element[1].lower())
+                changed_indices.append(index)
+                changed_indices.append(index + 1)
+
+                word = word.replace(element[1].lower(), element[1])
+                used_elements += element[0] + ", "
+
+        for element in elements:
+            if element[1].lower() in word:
+                word = word.replace(element[1].lower(), element[1])
+                used_elements += element[0] + ", "
+
+        used_elements = "(" + used_elements[:-2] + ")"
+        print(word + used_elements)
+        main() # Run it again
 
 if __name__ == "__main__":
     main()
